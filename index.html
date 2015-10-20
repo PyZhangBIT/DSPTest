@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset='utf-8'>
+    <meta http-equiv="X-UA-Compatible" content="chrome=1">
+
+    <link rel="stylesheet" type="text/css" href="stylesheets/stylesheet.css" media="screen">
+    <link rel="stylesheet" type="text/css" href="stylesheets/github-dark.css" media="screen">
+    <link rel="stylesheet" type="text/css" href="stylesheets/print.css" media="print">
+
+    <title>Dsptest by ZhangHuty</title>
+  </head>
+
+  <body>
+
+    <header>
+      <div class="container">
+        <h1>Dsptest</h1>
+        <h2></h2>
+
+        <section id="downloads">
+          <a href="https://github.com/ZhangHuty/DSPTest/zipball/master" class="btn">Download as .zip</a>
+          <a href="https://github.com/ZhangHuty/DSPTest/tarball/master" class="btn">Download as .tar.gz</a>
+          <a href="https://github.com/ZhangHuty/DSPTest" class="btn btn-github"><span class="icon"></span>View on GitHub</a>
+        </section>
+      </div>
+    </header>
+
+    <div class="container">
+      <section id="main_content">
+        <h1>
+<a id="dsp开发如何获得浮点型的数据的ieee的表示" class="anchor" href="#dsp%E5%BC%80%E5%8F%91%E5%A6%82%E4%BD%95%E8%8E%B7%E5%BE%97%E6%B5%AE%E7%82%B9%E5%9E%8B%E7%9A%84%E6%95%B0%E6%8D%AE%E7%9A%84ieee%E7%9A%84%E8%A1%A8%E7%A4%BA" aria-hidden="true"><span class="octicon octicon-link"></span></a>【DSP开发】如何获得浮点型的数据的IEEE的表示</h1>
+
+<hr>
+
+<p>浮点数的存储规范，由IEEE指定的，具体的规范文件是：IEEE Standard 754 for Binary Floating-Point Arithmetic。
+这里不细说存储规范，只是说明如何获取DSP程序中某一个float型变量的IEEE表示。</p>
+
+<p>如果这个时候你想的是IEEE的规范，然后按照规范去根据float值去转换，那你就华丽丽的败了，因为这样做只能增加你的困扰，而且我保证效果不会很好。</p>
+
+<p>这个时候应该换一种思路，既然所有的处理器，都是按照IEEE的浮点型格式存储的，那么对应内存中存储的数据就是浮点型的IEEE表示，直接读取这个浮点型变量对应内存中的数据即可。<strong>这个时候就显现出指针的强大了</strong>。如下所示：</p>
+
+<pre><code>float testFloat = 4.25;
+
+unsigned long * testIEEE = NULL;
+
+testIEEE = (unsigned long *)(&amp;testFloat);
+printf("%x\n",*testIEEE);
+</code></pre>
+
+<p>输出为：0x40880000，对应的二进制为：1000000100010000000000000000000，如果查阅一下IEEE的规范，进行计算可以验证是正确的。（<strong>单精度的浮点型32位</strong>）</p>
+
+<hr>
+
+<blockquote>
+<p>2015-10-20 调试心得 张朋艺</p>
+</blockquote>
+      </section>
+    </div>
+
+    
+  </body>
+</html>
